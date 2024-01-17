@@ -6,21 +6,27 @@ import pandas as pd
 import sys
 import datetime as dt
 
+# Assuming this gets working--possible to generalize to sport?
+# BIG TODO: If not, write specific funcs for each sport on TR
+
+# TODO: Extract + add 'Next Game' column
 # team rankings home page
 tr_url = "https://www.teamrankings.com/ncb/trends/ats_trends/"
+
 # Define lists for streak frequencies
+# TODO: Add 'maxAtsStrk', 'maxOvrStrk' and 'maxUndStrk'
 ats_freqs=[0]*20
 ovr_freqs=[0]*20
 undr_freqs=[0]*20
 atsStrk=0
 ovrStrk=0
+# TODO: change this to some 'today' variable from dt library
 date = dt.date(2023,1,4)
 
 page = requests.get(tr_url)
 if page.status_code != 200:
     print(f"Failed to fetch data: {page.status_code}")
     sys.exit(1)
-
 
 
 # use SoupStrainer to just grab the teams table?
@@ -39,6 +45,8 @@ print(len(links))
 # Question: faster to import all team schedules as DFs (and flagging bold values somehow) before 
     # doing streak analysis, or analyze as we import?
 
+# TODO: Add some output / logging messages
+# TODO: include some time/space logging as well? 'Took this long:'
 # For each D1 team:
     # Grab its team page (w BeautifulSoup?)
     # Grab its Betting View table (HTML element)

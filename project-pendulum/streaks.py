@@ -6,15 +6,15 @@ import sys
 def main(sport):
     # Specify URL to teams table and request permission from servers
     urls = {
-        "nba": "https://www.oddsshark.com/nba/ats-standings",
-        "cbb": "https://www.oddsshark.com/ncaab/ats-standings"
+        "nba": ["https://www.oddsshark.com/nba/ats-standings", 4],
+        "cbb": ["https://www.oddsshark.com/ncaab/ats-standings", 6]
         # TODO: look for nhl_url (not on OddShark)
     }
     if sport not in urls.keys():
         print("Invalid arg!")
         sys.exit(1)
     
-    page = requests.get(urls[sport])
+    page = requests.get(urls[sport][0])
     if page.status_code != 200:
         print(f"Failed to fetch data: {page.status_code}")
         sys.exit(1)
@@ -51,7 +51,7 @@ def main(sport):
         # (combine dataframes of both/all sports)
     # Can't help but feel like I'm using a Python script to do a database's job
 
-    print(df[df['Streak-Length'] >= 6][['Team', 'ATS-Streak']])
+    print(df[df['Streak-Length'] >= urls[sport][1]][['Team', 'ATS-Streak']])
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
